@@ -9,27 +9,18 @@
 
 <style>
   :root{
-    --bg0:#070a14;
-    --bg1:#0b1228;
-    --card: rgba(255,255,255,.07);
-    --stroke: rgba(255,255,255,.12);
-    --text:#e8ecff;
-    --muted: rgba(232,236,255,.75);
-    --brand:#ff5a2a;
-    --brand2:#ff8a2a;
-    --ok:#22c55e;
-    --bad:#ef4444;
-    --warn:#f59e0b;
-    --r:18px;
-    --sh: 0 16px 44px rgba(0,0,0,.50);
+    --bg0:#070a14; --bg1:#0b1228;
+    --card:rgba(255,255,255,.07); --stroke:rgba(255,255,255,.12);
+    --text:#e8ecff; --muted:rgba(232,236,255,.72);
+    --brand:#ff5a2a; --brand2:#ff8a2a;
+    --ok:#22c55e; --bad:#ef4444; --warn:#f59e0b;
+    --r:18px; --sh:0 16px 44px rgba(0,0,0,.50);
   }
-
   *{box-sizing:border-box}
   html,body{height:100%}
   body{
-    margin:0;
+    margin:0; color:var(--text);
     font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial;
-    color:var(--text);
     background:
       radial-gradient(1100px 600px at 20% -10%, rgba(255,90,42,.33), transparent 60%),
       radial-gradient(900px 520px at 110% 0%, rgba(255,138,42,.22), transparent 58%),
@@ -40,195 +31,159 @@
   .app{
     height:100vh;
     display:grid;
-    grid-template-rows: auto auto 1fr auto;
+    grid-template-rows:auto auto auto 1fr;
     gap:10px;
     padding: env(safe-area-inset-top) 12px env(safe-area-inset-bottom) 12px;
   }
 
   header{
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-    gap:10px;
-    padding:12px 4px 0;
+    display:flex; align-items:center; justify-content:space-between; gap:10px;
+    padding:10px 4px 0;
   }
-  .brand{
-    display:flex; gap:10px; align-items:center;
-  }
+  .brand{display:flex; gap:10px; align-items:center;}
   .logo{
     width:44px;height:44px;border-radius:14px;
-    background: linear-gradient(135deg, var(--brand), var(--brand2));
-    box-shadow: 0 14px 38px rgba(255,90,42,.28);
+    background:linear-gradient(135deg,var(--brand),var(--brand2));
+    box-shadow:0 14px 38px rgba(255,90,42,.28);
   }
-  .ttl h1{margin:0;font-size:16px;letter-spacing:.2px}
+  .ttl h1{margin:0;font-size:16px;font-weight:950}
   .ttl p{margin:3px 0 0;font-size:12px;color:var(--muted)}
 
   .status{
     display:flex; align-items:center; gap:8px;
-    padding:10px 12px;
-    border-radius:999px;
-    background: rgba(255,255,255,.06);
+    padding:10px 12px; border-radius:999px;
+    background:rgba(255,255,255,.06);
     border:1px solid var(--stroke);
-    box-shadow: 0 10px 26px rgba(0,0,0,.22);
-    min-width: 150px;
-    justify-content:center;
+    box-shadow:0 10px 26px rgba(0,0,0,.22);
+    min-width:150px; justify-content:center;
   }
-  .dot{
-    width:10px;height:10px;border-radius:99px;
-    background: var(--warn);
-    box-shadow: 0 0 0 6px rgba(245,158,11,.14);
-  }
-  .stxt{font-size:12.5px;font-weight:900}
+  .dot{width:10px;height:10px;border-radius:99px;background:var(--warn);box-shadow:0 0 0 6px rgba(245,158,11,.14);}
+  .stxt{font-size:12.5px;font-weight:950}
   .smini{font-size:11px;color:var(--muted)}
 
   .card{
-    background: var(--card);
+    background:var(--card);
     border:1px solid var(--stroke);
-    border-radius: var(--r);
-    box-shadow: var(--sh);
+    border-radius:var(--r);
+    box-shadow:var(--sh);
     overflow:hidden;
   }
 
-  .topbar{
-    padding:12px;
+  .row{
+    padding:10px;
     display:grid;
-    grid-template-columns: 1fr auto;
+    grid-template-columns:1fr auto;
     gap:10px;
     align-items:center;
   }
 
-  .field{
-    border-radius: 16px;
-    background: rgba(255,255,255,.06);
-    border:1px solid rgba(255,255,255,.10);
-    overflow:hidden;
-  }
-  .field input{
+  input{
     width:100%;
     padding:14px 14px;
-    font-size:16px;
-    border:0; outline:0;
-    background: transparent;
+    border:1px solid rgba(255,255,255,.10);
+    background:rgba(255,255,255,.06);
+    border-radius:16px;
     color:var(--text);
+    font-size:16px;
+    outline:none;
   }
-  .field input::placeholder{color: rgba(232,236,255,.55)}
+  input::placeholder{color:rgba(232,236,255,.55)}
 
   .btn{
     border:0;
     border-radius:16px;
     padding:12px 12px;
     color:var(--text);
-    background: rgba(255,255,255,.07);
+    background:rgba(255,255,255,.08);
     border:1px solid rgba(255,255,255,.12);
     cursor:pointer;
-    display:flex;
-    align-items:center;
-    gap:8px;
-    user-select:none;
     white-space:nowrap;
   }
-  .btn:active{ transform:scale(.985); }
+  .btn:active{transform:scale(.985)}
   .btn[disabled]{opacity:.6; cursor:not-allowed;}
 
-  .gridInfo{
+  .infoGrid{
     display:grid;
-    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-columns:1fr 1fr 1fr;
     gap:8px;
-    padding: 0 12px 12px;
+    padding:10px;
   }
   .info{
-    padding:10px 10px;
+    padding:10px;
     border-radius:16px;
-    background: rgba(11,18,40,.55);
+    background:rgba(11,18,40,.55);
     border:1px solid rgba(255,255,255,.10);
   }
   .k{font-size:11px;color:var(--muted)}
-  .v{font-size:13px;font-weight:950;margin-top:2px}
+  .v{margin-top:2px;font-size:13px;font-weight:950}
 
-  @media (max-width: 360px){
-    .gridInfo{grid-template-columns: 1fr 1fr;}
-    .status{min-width: 120px;}
+  @media(max-width:360px){
+    .infoGrid{grid-template-columns:1fr 1fr;}
+    .status{min-width:120px}
   }
 
-  .mapWrap{
-    position:relative;
-    height: 100%;
-    min-height: 44vh;
-  }
-  #map{ height:100%; width:100%; }
+  /* MAPA MENOR */
+  .mapWrap{height:28vh; min-height:190px;}
+  #map{height:100%; width:100%;}
 
   .footer{
     display:grid;
-    grid-template-columns: 1fr;
+    grid-template-rows:auto 1fr;
     gap:10px;
-    padding: 0 4px 10px;
   }
+
   .cta{
     width:100%;
     padding:16px 14px;
     font-size:18px;
     font-weight:950;
-    letter-spacing:.4px;
     border:0;
-    border-radius: 20px;
-    color:white;
-    background: linear-gradient(135deg, var(--brand), var(--brand2));
-    box-shadow: 0 18px 44px rgba(255,90,42,.28);
+    border-radius:20px;
+    color:#fff;
+    background:linear-gradient(135deg,var(--brand),var(--brand2));
+    box-shadow:0 18px 44px rgba(255,90,42,.28);
     cursor:pointer;
   }
-  .cta:active{ transform:scale(.985); }
+  .cta:active{transform:scale(.985)}
   .cta[disabled]{opacity:.6; cursor:not-allowed;}
   .loader{
     width:18px;height:18px;border-radius:99px;
     border:2px solid rgba(255,255,255,.35);
-    border-top-color: rgba(255,255,255,1);
+    border-top-color:#fff;
     display:inline-block;
     margin-left:10px;
     vertical-align:middle;
-    animation: rot .8s linear infinite;
+    animation:rot .8s linear infinite;
   }
   @keyframes rot{to{transform:rotate(360deg)}}
 
   .msg{
     padding:12px;
-    border-radius: var(--r);
-    background: rgba(0,0,0,.30);
+    border-radius:var(--r);
+    background:rgba(0,0,0,.30);
     border:1px solid rgba(255,255,255,.10);
-    color: rgba(232,236,255,.88);
     font-size:13.5px;
     line-height:1.35;
     white-space:pre-wrap;
-    max-height: 170px;
     overflow:auto;
   }
 
-  .leaflet-control-zoom a{
-    background: rgba(11,18,40,.82) !important;
-    color: #fff !important;
-    border: 1px solid rgba(255,255,255,.12) !important;
-  }
-  .leaflet-control-attribution{
-    background: rgba(11,18,40,.62) !important;
-    color: rgba(232,236,255,.75) !important;
-    border-radius: 12px;
-    padding: 4px 8px !important;
-    border: 1px solid rgba(255,255,255,.10);
-  }
+  .leaflet-control-zoom a{background:rgba(11,18,40,.82)!important;color:#fff!important;border:1px solid rgba(255,255,255,.12)!important;}
+  .leaflet-control-attribution{background:rgba(11,18,40,.62)!important;color:rgba(232,236,255,.75)!important;border-radius:12px;padding:4px 8px!important;border:1px solid rgba(255,255,255,.10);}
+
 </style>
 </head>
-
 <body>
-<div class="app">
 
+<div class="app">
   <header>
     <div class="brand">
       <div class="logo"></div>
       <div class="ttl">
         <h1>Cheguei no HUB</h1>
-        <p>Mapa + raio + envio sem erro</p>
+        <p>Sem erro de envio (sem CORS)</p>
       </div>
     </div>
-
     <div class="status">
       <span class="dot" id="dot"></span>
       <div>
@@ -239,17 +194,15 @@
   </header>
 
   <div class="card">
-    <div class="topbar">
-      <div class="field">
-        <input id="driverId" placeholder="Digite seu ID" inputmode="numeric" autocomplete="off">
-      </div>
+    <div class="row">
+      <input id="driverId" placeholder="Digite seu ID" inputmode="numeric" autocomplete="off">
       <button class="btn" id="btnRecal" onclick="recalibrar()">Recalibrar</button>
     </div>
 
-    <div class="gridInfo">
+    <div class="infoGrid">
       <div class="info"><div class="k">Distância</div><div class="v" id="dist">-- m</div></div>
       <div class="info"><div class="k">Raio</div><div class="v" id="raio">-- m</div></div>
-      <div class="info"><div class="k">Precisão (acc)</div><div class="v" id="acc">-- m</div></div>
+      <div class="info"><div class="k">Precisão</div><div class="v" id="acc">-- m</div></div>
     </div>
   </div>
 
@@ -261,24 +214,19 @@
     <button class="cta" id="btnSend" onclick="checkIn()">CHEGUEI NO HUB<span id="ld" style="display:none" class="loader"></span></button>
     <div class="msg" id="msg">Aguardando localização...</div>
   </div>
-
 </div>
 
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <script>
-/*** CONFIG ***/
+/*** MESMAS CONFIGS DO SERVIDOR ***/
 const HUB_LAT = -23.443825;
 const HUB_LNG = -46.529107;
 const RAIO_METROS = 500;
 
-// ajustes do GPS (no front)
 const MIN_ACCURACY = 120;
 const AMOSTRAS = 5;
 const INTERVALO_MS = 650;
 
-const WEBAPP_URL = "https://script.google.com/macros/s/AKfycbyd5RFCJjpjfUd-wylkdslI9zHSx08SbuUgUViMyX4Ykwv0Jlp3UMwLeqQ72_182lvm/exec";
-
-/*** UI ***/
 const el = id => document.getElementById(id);
 function msg(t){ el("msg").textContent = t; }
 
@@ -298,149 +246,117 @@ function setStatus(type, title, sub){
 
 el("raio").innerText = `${RAIO_METROS} m`;
 
-/*** distância ***/
 function distanciaMetros(lat1, lon1, lat2, lon2){
-  const R = 6371000;
-  const toRad = x => x*Math.PI/180;
-  const dLat = toRad(lat2-lat1);
-  const dLon = toRad(lon2-lon1);
+  const R = 6371000, toRad = x => x*Math.PI/180;
+  const dLat = toRad(lat2-lat1), dLon = toRad(lon2-lon1);
   const a = Math.sin(dLat/2)**2 + Math.cos(toRad(lat1))*Math.cos(toRad(lat2))*Math.sin(dLon/2)**2;
-  const c = 2*Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
-  return R*c;
+  return R * (2*Math.atan2(Math.sqrt(a), Math.sqrt(1-a)));
 }
 
 /*** MAPA ***/
 const map = L.map('map').setView([HUB_LAT, HUB_LNG], 17);
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 20, attribution: '&copy; OpenStreetMap' }).addTo(map);
-
 const hubMarker = L.marker([HUB_LAT, HUB_LNG]).addTo(map).bindPopup("HUB");
 const hubCircle = L.circle([HUB_LAT, HUB_LNG], { radius: RAIO_METROS }).addTo(map);
 
-let driverMarker = null;
-let lineToHub = null;
-let lastBest = null;
+let driverMarker=null, lineToHub=null, lastBest=null;
 
-function updateMap(lat, lng){
+function updateMap(lat,lng){
   if(!driverMarker) driverMarker = L.marker([lat,lng]).addTo(map).bindPopup("Você");
   else driverMarker.setLatLng([lat,lng]);
-
   if(lineToHub) map.removeLayer(lineToHub);
   lineToHub = L.polyline([[lat,lng],[HUB_LAT,HUB_LNG]]).addTo(map);
 
-  const group = L.featureGroup([hubMarker, hubCircle, driverMarker, lineToHub]);
-  map.fitBounds(group.getBounds().pad(0.18));
+  const group = L.featureGroup([hubMarker, hubCircle, driverMarker]);
+  map.fitBounds(group.getBounds().pad(0.20));
 }
 
-/*** GPS reforçado ***/
 function obterLocalizacaoReforcada(){
-  return new Promise((resolve, reject) => {
+  return new Promise((resolve,reject)=>{
     if(!navigator.geolocation) return reject("Sem suporte a GPS.");
+    let tent=0, best=null;
 
-    let tent = 0;
-    let best = null;
+    const step=()=>{
+      navigator.geolocation.getCurrentPosition(pos=>{
+        tent++;
+        const lat=pos.coords.latitude, lng=pos.coords.longitude;
+        const acc=Number(pos.coords.accuracy||9999);
+        if(!best || acc<best.acc) best={lat,lng,acc};
 
-    const step = () => {
-      navigator.geolocation.getCurrentPosition(
-        pos => {
-          tent++;
-          const lat = pos.coords.latitude;
-          const lng = pos.coords.longitude;
-          const acc = Number(pos.coords.accuracy || 9999);
+        const dist=distanciaMetros(best.lat,best.lng,HUB_LAT,HUB_LNG);
+        lastBest={...best,dist};
 
-          if(!best || acc < best.acc) best = {lat, lng, acc};
+        el("dist").innerText = `${Math.round(dist)} m`;
+        el("acc").innerText  = `${Math.round(best.acc)} m`;
+        updateMap(best.lat,best.lng);
 
-          const dist = distanciaMetros(best.lat, best.lng, HUB_LAT, HUB_LNG);
-          lastBest = {...best, dist};
+        setStatus("warn","Calibrando…",`leitura ${tent}/${AMOSTRAS} • ~${Math.round(best.acc)}m`);
+        msg(`GPS leitura ${tent}/${AMOSTRAS}\nPrecisão: ~${Math.round(best.acc)}m\nDistância: ${Math.round(dist)}m`);
 
-          el("dist").innerText = `${Math.round(dist)} m`;
-          el("acc").innerText = `${Math.round(best.acc)} m`;
-          updateMap(best.lat, best.lng);
-
-          setStatus("warn","Calibrando…",`leitura ${tent}/${AMOSTRAS} • melhor ~${Math.round(best.acc)}m`);
-          msg(`GPS leitura ${tent}/${AMOSTRAS}\nMelhor precisão: ~${Math.round(best.acc)}m\nDistância: ${Math.round(dist)}m`);
-
-          if(tent >= AMOSTRAS){
-            if(best.acc > MIN_ACCURACY){
-              setStatus("bad","Precisão fraca",`~${Math.round(best.acc)}m (mín ${MIN_ACCURACY}m)`);
-              return reject(`Precisão fraca (~${Math.round(best.acc)}m). Vá para local aberto e recalibre.`);
-            }
-
-            if(dist <= RAIO_METROS){
-              setStatus("ok","Dentro do raio",`dist ~${Math.round(dist)}m`);
-            }else{
-              setStatus("bad","Fora do raio",`dist ~${Math.round(dist)}m`);
-            }
-            return resolve(lastBest);
+        if(tent>=AMOSTRAS){
+          if(best.acc>MIN_ACCURACY){
+            setStatus("bad","Precisão fraca",`~${Math.round(best.acc)}m`);
+            return reject(`Precisão fraca (~${Math.round(best.acc)}m). Recalibre em local aberto.`);
           }
-
-          setTimeout(step, INTERVALO_MS);
-        },
-        err => reject("Permita o GPS e ative localização (alta precisão)."),
-        { enableHighAccuracy:true, timeout:15000, maximumAge:0 }
-      );
+          if(dist<=RAIO_METROS) setStatus("ok","Dentro do raio",`dist ~${Math.round(dist)}m`);
+          else setStatus("bad","Fora do raio",`dist ~${Math.round(dist)}m`);
+          return resolve(lastBest);
+        }
+        setTimeout(step, INTERVALO_MS);
+      }, _=>reject("Permita o GPS e ative alta precisão."),
+      {enableHighAccuracy:true, timeout:15000, maximumAge:0});
     };
-
     step();
   });
 }
 
 async function recalibrar(){
   try{
-    el("btnRecal").disabled = true;
+    el("btnRecal").disabled=true;
     await obterLocalizacaoReforcada();
   }catch(e){
     msg(String(e));
   }finally{
-    el("btnRecal").disabled = false;
+    el("btnRecal").disabled=false;
   }
 }
 
-/*** ENVIO (SEM JSON, SEM CORS) ***/
+/*** ENVIO SEM FETCH: google.script.run (SEM CORS) ***/
 async function checkIn(){
   const id = el("driverId").value.trim();
-  if(!id){
-    msg("Digite seu ID antes de enviar.");
-    return;
-  }
+  if(!id){ msg("Digite seu ID antes de enviar."); return; }
 
   const btn = el("btnSend");
   const ld  = el("ld");
-  btn.disabled = true;
-  ld.style.display = "inline-block";
+  btn.disabled=true; ld.style.display="inline-block";
 
   try{
     const best = await obterLocalizacaoReforcada();
-
     if(best.dist > RAIO_METROS){
-      msg(`Você está FORA do raio ❌\nDistância: ${Math.round(best.dist)}m\nRaio: ${RAIO_METROS}m`);
+      msg(`Fora do raio ❌\nDistância: ${Math.round(best.dist)}m\nRaio: ${RAIO_METROS}m`);
       return;
     }
 
-    msg("Dentro do raio ✅\nEnviando check-in...");
+    msg("Dentro do raio ✅\nEnviando...");
 
-    // ✅ form-urlencoded (evita preflight)
-    const body = new URLSearchParams();
-    body.append("id", id);
-    body.append("lat", String(best.lat));
-    body.append("lng", String(best.lng));
-    body.append("acc", String(best.acc));
-
-    const r = await fetch(WEBAPP_URL, { method:"POST", body });
-    const text = await r.text();
-
-    msg(text);
+    google.script.run
+      .withSuccessHandler(res=>{
+        msg(res);
+        btn.disabled=false; ld.style.display="none";
+      })
+      .withFailureHandler(err=>{
+        msg("Erro ao enviar: " + (err && err.message ? err.message : err));
+        btn.disabled=false; ld.style.display="none";
+      })
+      .registrarChegada({ id, lat: best.lat, lng: best.lng, acc: best.acc });
 
   }catch(e){
-    msg("Falha no envio: " + e);
-  }finally{
-    btn.disabled = false;
-    ld.style.display = "none";
+    msg("Erro: " + e);
+    btn.disabled=false; ld.style.display="none";
   }
 }
 
-/*** init ***/
 recalibrar();
 </script>
-
 </body>
 </html>
