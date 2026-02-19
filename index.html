@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html>
+
+<body>
+
+<h2>Check-in HUB</h2>
+
+<input id="driverId" placeholder="Digite seu ID">
+
+<button onclick="checkIn()">
+CHEGUEI NO HUB
+</button>
+
+<p id="msg"></p>
+
+<script>
+
+const WEBAPP_URL = "https://script.google.com/macros/s/AKfycbyd5RFCJjpjfUd-wylkdslI9zHSx08SbuUgUViMyX4Ykwv0Jlp3UMwLeqQ72_182lvm/exec";
+
+function checkIn(){
+
+    const id = document.getElementById("driverId").value;
+
+    navigator.geolocation.getCurrentPosition(pos => {
+
+        fetch(WEBAPP_URL,{
+            method:"POST",
+            body:JSON.stringify({
+                id:id,
+                lat:pos.coords.latitude,
+                lng:pos.coords.longitude
+            })
+        })
+        .then(r=>r.text())
+        .then(res=>{
+            document.getElementById("msg").innerText = res;
+        });
+
+    });
+
+}
+
+</script>
+
+</body>
+</html>
