@@ -4,11 +4,13 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
 <title>Cheguei no HUB</title>
+
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
 
 <style>
   :root{
-    --bg:#070a14;
+    --bg0:#070a14;
+    --bg1:#0b1228;
     --card: rgba(255,255,255,.07);
     --stroke: rgba(255,255,255,.12);
     --text:#e8ecff;
@@ -19,7 +21,7 @@
     --bad:#ef4444;
     --warn:#f59e0b;
     --r:18px;
-    --sh: 0 16px 40px rgba(0,0,0,.45);
+    --sh: 0 16px 44px rgba(0,0,0,.50);
   }
 
   *{box-sizing:border-box}
@@ -31,7 +33,7 @@
     background:
       radial-gradient(1100px 600px at 20% -10%, rgba(255,90,42,.33), transparent 60%),
       radial-gradient(900px 520px at 110% 0%, rgba(255,138,42,.22), transparent 58%),
-      linear-gradient(180deg, #060814, #0b1228);
+      linear-gradient(180deg, var(--bg0), var(--bg1));
     overflow:hidden;
   }
 
@@ -50,10 +52,11 @@
     gap:10px;
     padding:12px 4px 0;
   }
-
-  .hleft{display:flex; gap:10px; align-items:center;}
+  .brand{
+    display:flex; gap:10px; align-items:center;
+  }
   .logo{
-    width:42px;height:42px;border-radius:14px;
+    width:44px;height:44px;border-radius:14px;
     background: linear-gradient(135deg, var(--brand), var(--brand2));
     box-shadow: 0 14px 38px rgba(255,90,42,.28);
   }
@@ -67,7 +70,7 @@
     background: rgba(255,255,255,.06);
     border:1px solid var(--stroke);
     box-shadow: 0 10px 26px rgba(0,0,0,.22);
-    min-width: 140px;
+    min-width: 150px;
     justify-content:center;
   }
   .dot{
@@ -75,7 +78,7 @@
     background: var(--warn);
     box-shadow: 0 0 0 6px rgba(245,158,11,.14);
   }
-  .stxt{font-size:12.5px;font-weight:800}
+  .stxt{font-size:12.5px;font-weight:900}
   .smini{font-size:11px;color:var(--muted)}
 
   .card{
@@ -89,13 +92,12 @@
   .topbar{
     padding:12px;
     display:grid;
-    grid-template-columns: 1fr auto auto;
+    grid-template-columns: 1fr auto;
     gap:10px;
     align-items:center;
   }
 
   .field{
-    position:relative;
     border-radius: 16px;
     background: rgba(255,255,255,.06);
     border:1px solid rgba(255,255,255,.10);
@@ -103,7 +105,7 @@
   }
   .field input{
     width:100%;
-    padding:14px 14px 14px 14px;
+    padding:14px 14px;
     font-size:16px;
     border:0; outline:0;
     background: transparent;
@@ -141,7 +143,12 @@
     border:1px solid rgba(255,255,255,.10);
   }
   .k{font-size:11px;color:var(--muted)}
-  .v{font-size:13px;font-weight:900;margin-top:2px}
+  .v{font-size:13px;font-weight:950;margin-top:2px}
+
+  @media (max-width: 360px){
+    .gridInfo{grid-template-columns: 1fr 1fr;}
+    .status{min-width: 120px;}
+  }
 
   .mapWrap{
     position:relative;
@@ -149,25 +156,6 @@
     min-height: 44vh;
   }
   #map{ height:100%; width:100%; }
-
-  .hud{
-    position:absolute;
-    left:10px; right:10px; top:10px;
-    display:flex;
-    gap:8px;
-    flex-wrap:wrap;
-    pointer-events:none;
-  }
-  .chip{
-    pointer-events:none;
-    padding:9px 10px;
-    border-radius: 14px;
-    background: rgba(11,18,40,.65);
-    border:1px solid rgba(255,255,255,.10);
-    backdrop-filter: blur(10px);
-    font-size:12px;
-    box-shadow: 0 10px 26px rgba(0,0,0,.30);
-  }
 
   .footer{
     display:grid;
@@ -201,23 +189,17 @@
   }
   @keyframes rot{to{transform:rotate(360deg)}}
 
-  .log{
+  .msg{
     padding:12px;
     border-radius: var(--r);
     background: rgba(0,0,0,.30);
     border:1px solid rgba(255,255,255,.10);
     color: rgba(232,236,255,.88);
-    font-size:12.5px;
+    font-size:13.5px;
     line-height:1.35;
     white-space:pre-wrap;
-    max-height: 160px;
+    max-height: 170px;
     overflow:auto;
-  }
-
-  /* Ajuste para telas muito pequenas */
-  @media (max-width: 360px){
-    .gridInfo{grid-template-columns: 1fr 1fr;}
-    .status{min-width: 110px;}
   }
 
   .leaflet-control-zoom a{
@@ -239,18 +221,18 @@
 <div class="app">
 
   <header>
-    <div class="hleft">
+    <div class="brand">
       <div class="logo"></div>
       <div class="ttl">
-        <h1>Check-in HUB</h1>
-        <p>Mapa + raio + diagnóstico</p>
+        <h1>Cheguei no HUB</h1>
+        <p>Mapa + raio + envio sem erro</p>
       </div>
     </div>
 
     <div class="status">
       <span class="dot" id="dot"></span>
       <div>
-        <div class="stxt" id="stxt">Calibrando...</div>
+        <div class="stxt" id="stxt">Calibrando…</div>
         <div class="smini" id="smini">Aguardando GPS</div>
       </div>
     </div>
@@ -258,9 +240,10 @@
 
   <div class="card">
     <div class="topbar">
-      <div class="field"><input id="driverId" placeholder="Digite seu ID" inputmode="numeric" autocomplete="off"></div>
+      <div class="field">
+        <input id="driverId" placeholder="Digite seu ID" inputmode="numeric" autocomplete="off">
+      </div>
       <button class="btn" id="btnRecal" onclick="recalibrar()">Recalibrar</button>
-      <button class="btn" onclick="testarWebApp()">Testar WebApp</button>
     </div>
 
     <div class="gridInfo">
@@ -271,42 +254,40 @@
   </div>
 
   <div class="card mapWrap">
-    <div class="hud">
-      <div class="chip" id="chip1">URL: --</div>
-      <div class="chip" id="chip2">Último envio: --</div>
-    </div>
     <div id="map"></div>
   </div>
 
   <div class="footer">
     <button class="cta" id="btnSend" onclick="checkIn()">CHEGUEI NO HUB<span id="ld" style="display:none" class="loader"></span></button>
-    <div class="log" id="log">LOG: iniciando…</div>
+    <div class="msg" id="msg">Aguardando localização...</div>
   </div>
 
 </div>
 
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-
 <script>
 /*** CONFIG ***/
 const HUB_LAT = -23.443825;
 const HUB_LNG = -46.529107;
-const RAIO_METROS = 200;
+const RAIO_METROS = 500;
 
-const MIN_ACCURACY = 120;     // se o GPS vier pior que isso, pede recalibrar
+// ajustes do GPS (no front)
+const MIN_ACCURACY = 120;
 const AMOSTRAS = 5;
 const INTERVALO_MS = 650;
 
 const WEBAPP_URL = "https://script.google.com/macros/s/AKfycbyd5RFCJjpjfUd-wylkdslI9zHSx08SbuUgUViMyX4Ykwv0Jlp3UMwLeqQ72_182lvm/exec";
 
-/*** UI helpers ***/
+/*** UI ***/
 const el = id => document.getElementById(id);
+function msg(t){ el("msg").textContent = t; }
+
 function setStatus(type, title, sub){
   const dot = el("dot");
   const map = {
-    ok: ["var(--ok)", "rgba(34,197,94,.14)"],
-    bad:["var(--bad)","rgba(239,68,68,.14)"],
-    warn:["var(--warn)","rgba(245,158,11,.14)"]
+    ok: ["#22c55e","rgba(34,197,94,.14)"],
+    bad:["#ef4444","rgba(239,68,68,.14)"],
+    warn:["#f59e0b","rgba(245,158,11,.14)"]
   };
   const [c, glow] = map[type] || map.warn;
   dot.style.background = c;
@@ -314,14 +295,10 @@ function setStatus(type, title, sub){
   el("stxt").innerText = title;
   el("smini").innerText = sub || "";
 }
-function logAdd(t){
-  const box = el("log");
-  box.textContent = `${new Date().toLocaleTimeString()} — ${t}\n` + box.textContent;
-}
-el("raio").innerText = `${RAIO_METROS} m`;
-el("chip1").innerText = "URL: " + WEBAPP_URL.slice(0, 42) + "…";
 
-/*** distance ***/
+el("raio").innerText = `${RAIO_METROS} m`;
+
+/*** distância ***/
 function distanciaMetros(lat1, lon1, lat2, lon2){
   const R = 6371000;
   const toRad = x => x*Math.PI/180;
@@ -332,7 +309,7 @@ function distanciaMetros(lat1, lon1, lat2, lon2){
   return R*c;
 }
 
-/*** Map ***/
+/*** MAPA ***/
 const map = L.map('map').setView([HUB_LAT, HUB_LNG], 17);
 L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { maxZoom: 20, attribution: '&copy; OpenStreetMap' }).addTo(map);
 
@@ -354,10 +331,10 @@ function updateMap(lat, lng){
   map.fitBounds(group.getBounds().pad(0.18));
 }
 
-/*** Strong GPS sampling ***/
+/*** GPS reforçado ***/
 function obterLocalizacaoReforcada(){
   return new Promise((resolve, reject) => {
-    if(!navigator.geolocation) return reject("Sem suporte a GPS no navegador.");
+    if(!navigator.geolocation) return reject("Sem suporte a GPS.");
 
     let tent = 0;
     let best = null;
@@ -379,19 +356,19 @@ function obterLocalizacaoReforcada(){
           el("acc").innerText = `${Math.round(best.acc)} m`;
           updateMap(best.lat, best.lng);
 
-          setStatus("warn", "Calibrando…", `leitura ${tent}/${AMOSTRAS} • melhor ~${Math.round(best.acc)}m`);
-          logAdd(`GPS leitura ${tent}/${AMOSTRAS} | acc=${Math.round(acc)}m | best=${Math.round(best.acc)}m | distBest=${Math.round(dist)}m`);
+          setStatus("warn","Calibrando…",`leitura ${tent}/${AMOSTRAS} • melhor ~${Math.round(best.acc)}m`);
+          msg(`GPS leitura ${tent}/${AMOSTRAS}\nMelhor precisão: ~${Math.round(best.acc)}m\nDistância: ${Math.round(dist)}m`);
 
           if(tent >= AMOSTRAS){
             if(best.acc > MIN_ACCURACY){
-              setStatus("bad", "Precisão fraca", `~${Math.round(best.acc)}m (mín ${MIN_ACCURACY}m)`);
-              return reject(`Precisão fraca (~${Math.round(best.acc)}m). Vá para um local aberto e recalibre.`);
+              setStatus("bad","Precisão fraca",`~${Math.round(best.acc)}m (mín ${MIN_ACCURACY}m)`);
+              return reject(`Precisão fraca (~${Math.round(best.acc)}m). Vá para local aberto e recalibre.`);
             }
 
             if(dist <= RAIO_METROS){
-              setStatus("ok", "Dentro do raio", `dist ~${Math.round(dist)}m | raio ${RAIO_METROS}m`);
+              setStatus("ok","Dentro do raio",`dist ~${Math.round(dist)}m`);
             }else{
-              setStatus("bad", "Fora do raio", `dist ~${Math.round(dist)}m | raio ${RAIO_METROS}m`);
+              setStatus("bad","Fora do raio",`dist ~${Math.round(dist)}m`);
             }
             return resolve(lastBest);
           }
@@ -410,84 +387,51 @@ function obterLocalizacaoReforcada(){
 async function recalibrar(){
   try{
     el("btnRecal").disabled = true;
-    logAdd("Recalibrando…");
     await obterLocalizacaoReforcada();
   }catch(e){
-    logAdd("ERRO GPS: " + e);
+    msg(String(e));
   }finally{
     el("btnRecal").disabled = false;
   }
 }
 
-/*** Debug: test webapp with GET ***/
-async function testarWebApp(){
-  try{
-    logAdd("Testando WebApp (GET)...");
-    const r = await fetch(WEBAPP_URL, { method:"GET" });
-    const t = await r.text();
-    logAdd(`GET status=${r.status} | resposta=${t.slice(0,120)}`);
-    el("chip2").innerText = "Último envio: TESTE GET OK";
-  }catch(e){
-    logAdd("FALHA GET: " + e);
-    el("chip2").innerText = "Último envio: TESTE GET FALHOU";
-  }
-}
-
-/*** Send with timeout + show response ***/
+/*** ENVIO (SEM JSON, SEM CORS) ***/
 async function checkIn(){
   const id = el("driverId").value.trim();
-  if(!id){ logAdd("ID vazio."); return; }
+  if(!id){
+    msg("Digite seu ID antes de enviar.");
+    return;
+  }
 
   const btn = el("btnSend");
   const ld  = el("ld");
-
   btn.disabled = true;
   ld.style.display = "inline-block";
 
   try{
-    logAdd("Preparando envio…");
     const best = await obterLocalizacaoReforcada();
 
     if(best.dist > RAIO_METROS){
-      logAdd(`BLOQUEADO: fora do raio (dist=${Math.round(best.dist)}m)`);
-      setStatus("bad","Fora do raio",`dist ~${Math.round(best.dist)}m`);
+      msg(`Você está FORA do raio ❌\nDistância: ${Math.round(best.dist)}m\nRaio: ${RAIO_METROS}m`);
       return;
     }
 
-    const payload = { id, lat: best.lat, lng: best.lng, acc: best.acc };
-    logAdd("Payload: " + JSON.stringify(payload));
+    msg("Dentro do raio ✅\nEnviando check-in...");
 
-    // timeout 20s
-    const controller = new AbortController();
-    const to = setTimeout(() => controller.abort(), 20000);
+    // ✅ form-urlencoded (evita preflight)
+    const body = new URLSearchParams();
+    body.append("id", id);
+    body.append("lat", String(best.lat));
+    body.append("lng", String(best.lng));
+    body.append("acc", String(best.acc));
 
-    logAdd("Enviando POST…");
-    const r = await fetch(WEBAPP_URL, {
-      method:"POST",
-      headers:{ "Content-Type":"application/json" },
-      body: JSON.stringify(payload),
-      signal: controller.signal
-    });
-
-    clearTimeout(to);
-
+    const r = await fetch(WEBAPP_URL, { method:"POST", body });
     const text = await r.text();
-    logAdd(`POST status=${r.status}`);
-    logAdd("Resposta: " + text);
 
-    el("chip2").innerText = "Último envio: " + new Date().toLocaleTimeString();
-
-    // Heurística: se vier HTML de login, você vai ver no log
-    if(text.includes("<html") || text.toLowerCase().includes("sign in")){
-      setStatus("bad","WebApp bloqueado","parece pedir login/permissão");
-      logAdd("⚠️ Parece que o WebApp retornou HTML (login/permissão). Verifique implantação: 'Qualquer pessoa'.");
-    }else{
-      setStatus("ok","Enviado","verifique a planilha");
-    }
+    msg(text);
 
   }catch(e){
-    logAdd("ERRO ENVIO: " + e);
-    setStatus("bad","Falha no envio", String(e).slice(0,40));
+    msg("Falha no envio: " + e);
   }finally{
     btn.disabled = false;
     ld.style.display = "none";
@@ -495,7 +439,6 @@ async function checkIn(){
 }
 
 /*** init ***/
-logAdd("Iniciado.");
 recalibrar();
 </script>
 
